@@ -1,0 +1,6 @@
+docker_wireguard_config/
+docker_technitium_config/
+
+*.log
+*.tmp
+*.swp
