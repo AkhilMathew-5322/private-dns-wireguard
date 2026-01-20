@@ -40,7 +40,7 @@ private-dns-wireguard/
 ### 1️⃣ Clone the repository
 
 ```bash
-git clone https://github.com/YOUR_GITHUB_USERNAME/private-dns-wireguard.git
+git clone https://github.com/AkhilMathew-5322/private-dns-wireguard.git
 cd private-dns-wireguard
 ```
 
