@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Private DNS + WireGuard VPN
 
 Self-hosted WireGuard VPN with Technitium DNS for private DNS, ad-blocking, and secure browsing.
@@ -55,4 +54,3 @@ Web UI not reachable: check VPN connection and container logs
 DNS not resolving: ensure PEERDNS=10.x.x.x and Technitium is running
 =======
 # private-dns-wireguard
->>>>>>> 2dacc1466abc35abe1785e22bf579426b14d0f08
