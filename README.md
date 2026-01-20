@@ -1,56 +1,129 @@
 # Private DNS + WireGuard VPN
 
-Self-hosted WireGuard VPN with Technitium DNS for private DNS, ad-blocking, and secure browsing.
+Self-hosted **WireGuard VPN** combined with **Technitium DNS Server** to provide secure remote access, private DNS resolution, and optional ad-blocking for VPN clients.
 
-## Features
+---
 
-- WireGuard VPN for secure connection
-- Technitium DNS for private DNS & ad-blocking
-- VPN clients use `10.x.x.x` as DNS
-- Web UI for monitoring DNS queries
-- Easy QR code setup for mobile clients
+## ✨ Features
 
-## Requirements
+* Secure WireGuard VPN
+* Private DNS using Technitium DNS Server
+* Optional DNS-level ad blocking
+* VPN clients automatically use the private DNS
+* Web UI to monitor and manage DNS queries
+* Easy QR code configuration for mobile devices
 
-- Ubuntu 22.04+ server
-- Docker & Docker Compose
-- Public IP or domain
-- Open UDP port 51820
+---
 
-## Deployment
+## 🧰 Requirements
 
-1. Clone the repo:
+* Ubuntu 22.04 or later
+* Docker & Docker Compose
+* Public IP address or domain name
+* UDP port **51820** open on the firewall
+
+---
+
+## 📁 Project Structure
+
+```
+private-dns-wireguard/
+├── docker-compose.yaml
+├── README.md
+└── .gitignore
+```
+
+---
+
+## 🚀 Deployment
+
+### 1️⃣ Clone the repository
 
 ```bash
-git clone https://github.com/<your-username>/private-dns-vpn.git
-cd private-dns-vpn
+git clone https://github.com/YOUR_GITHUB_USERNAME/private-dns-wireguard.git
+cd private-dns-wireguard
+```
 
+---
 
-Start Docker Compose:
+### 2️⃣ Start the services
 
+```bash
 docker compose up -d
+```
 
+---
 
-Verify containers:
+### 3️⃣ Verify containers
 
+```bash
 docker ps
+```
 
+You should see:
 
-Connect VPN client using QR code /config/peer_phone/peer_phone.png
-DNS will automatically be 10.x.x.x
+* `wireguard`
+* `technitium-dns`
 
-Access Technitium Web UI:
-http://IP:5380 (from VPN client)
+---
 
+## 📱 VPN Client Setup
 
-Enable Internet Access for VPN clients
+* QR codes are generated automatically inside the WireGuard container
+* Example path:
+
+```
+/config/peer_phone/peer_phone.png
+```
+
+* Scan the QR code using the WireGuard mobile app
+* DNS will be automatically set to the private VPN DNS IP (example: `10.8.0.1`)
+
+---
+
+## 🌐 Access Technitium DNS Web UI
+
+From a connected VPN client, open:
+
+```
+http://10.8.0.1:5380
+```
+
+(Default credentials can be configured inside Technitium if required)
+
+---
+
+## 🌍 Enable Internet Access for VPN Clients
+
+Run the following commands on the **host machine**:
+
+```bash
 sudo sysctl -w net.ipv4.ip_forward=1
-sudo iptables -t nat -A POSTROUTING -s 10.x.x.x/24 ! -d 10.x.x.x/24 -j MASQUERADE
+```
 
-Troubleshooting
+```bash
+sudo iptables -t nat -A POSTROUTING -s 10.8.0.0/24 ! -d 10.8.0.0/24 -j MASQUERADE
+```
 
-Web UI not reachable: check VPN connection and container logs
+---
 
-DNS not resolving: ensure PEERDNS=10.x.x.x and Technitium is running
-=======
-# private-dns-wireguard
+## 🛠 Troubleshooting
+
+**Web UI not reachable**
+
+* Ensure VPN is connected
+* Check container logs:
+
+```bash
+docker logs technitium-dns
+```
+
+**DNS not resolving**
+
+* Confirm `PEERDNS` is set to the VPN DNS IP
+* Verify Technitium container is running
+
+## 🤝 Contributions
+
+Pull requests and improvements are welcome.
+Feel free to fork and customize for your own environment.
